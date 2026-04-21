@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/inventory/:path*",
+      "destination": "https://www.abc.virginia.gov/webapi/inventory/:path*"
+    }
+  ]
+}
