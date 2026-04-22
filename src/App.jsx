@@ -88,7 +88,7 @@ async function fetchInventory(storeNums, productCodes) {
         storeNumber: store,
         productCode: code,
         mileRadius: '999',
-        storeCount: '6',
+        storeCount: '5',
         buffer: '0',
       })
       const data = await fetchWithRetry(`${ENDPOINT}?${params}`)
