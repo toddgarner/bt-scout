@@ -49,11 +49,33 @@ async function fetchInventory(storeNums, productCodes) {
     storeNumbers: storeNums.join(','),
     productCodes: productCodes.join(','),
   })
-  const res = await fetch(`${ENDPOINT}?${params}`, {
-    headers: { 'Accept': 'application/json' },
-  })
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
-  return res.json()
+  const url = `${ENDPOINT}?${params}`
+  const maxAttempts = 3
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const res = await fetch(url, { headers: { 'Accept': 'application/json' } })
+    if (res.ok) return res.json()
+
+    const retriable = res.status === 429 || res.status === 503
+    if (!retriable || attempt === maxAttempts) {
+      throw new Error(`HTTP ${res.status}`)
+    }
+
+    // Respect Retry-After (seconds or HTTP date) when provided, else
+    // exponential backoff with jitter: ~1s, ~2s, ~4s.
+    const retryAfter = res.headers.get('Retry-After')
+    let waitMs
+    if (retryAfter) {
+      const secs = Number(retryAfter)
+      waitMs = Number.isFinite(secs)
+        ? secs * 1000
+        : Math.max(0, new Date(retryAfter).getTime() - Date.now())
+    }
+    if (!waitMs || !Number.isFinite(waitMs)) {
+      waitMs = 500 * 2 ** attempt + Math.random() * 500
+    }
+    await new Promise(r => setTimeout(r, waitMs))
+  }
 }
 
 function indexInventory(payload) {
