@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 /**
  * useState that syncs to localStorage.
@@ -38,14 +38,14 @@ export function useNotifications() {
     return Notification.permission
   })
 
-  const request = async () => {
+  const request = useCallback(async () => {
     if (typeof Notification === 'undefined') return 'unsupported'
     const result = await Notification.requestPermission()
     setStatus(result)
     return result
-  }
+  }, [])
 
-  const send = (title, body, tag) => {
+  const send = useCallback((title, body, tag) => {
     if (typeof Notification === 'undefined') return
     if (Notification.permission !== 'granted') return
     try {
@@ -58,7 +58,7 @@ export function useNotifications() {
     } catch {
       // some browsers throw if the page is closed / SW required
     }
-  }
+  }, [])
 
   return { status, request, send }
 }

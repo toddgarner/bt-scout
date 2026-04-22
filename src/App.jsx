@@ -227,6 +227,7 @@ export default function App() {
   const [selectedStore, setSelectedStore] = useState(null)
   const [now, setNow] = useState(() => Date.now())
   const prevInventoryRef = useRef({})
+  const inFlightRef = useRef(false)
 
   const { status: notifStatus, request: requestNotif, send: sendNotif } = useNotifications()
 
@@ -247,6 +248,8 @@ export default function App() {
   // --- The core fetch -----------------------------------------------------
   const refresh = useCallback(async () => {
     if (activeCodes.size === 0) return
+    if (inFlightRef.current) return
+    inFlightRef.current = true
     setLoading(true)
     setError(null)
     try {
@@ -290,6 +293,7 @@ export default function App() {
       setError(e.message || 'Request failed')
     } finally {
       setLoading(false)
+      inFlightRef.current = false
     }
   }, [activeCodes, notifStatus, sendNotif, activeProductsRef, notifyEnabledRef])
 
