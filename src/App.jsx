@@ -7,7 +7,7 @@ import { useLocalState, useNotifications, useLatest } from './hooks.js'
 // Constants
 // ---------------------------------------------------------------------------
 
-const ENDPOINT = '/api/inventory/mystore'
+const ENDPOINT = '/api/inventory/storeNearby'
 
 // Polling intervals in milliseconds. "Manual" means no auto-refresh.
 const INTERVALS = [
@@ -44,14 +44,10 @@ const qtyNum = (q) => {
 // Data fetching
 // ---------------------------------------------------------------------------
 
-async function fetchInventory(storeNums, productCodes) {
-  const params = new URLSearchParams({
-    storeNumbers: storeNums.join(','),
-    productCodes: productCodes.join(','),
-  })
-  const url = `${ENDPOINT}?${params}`
-  const maxAttempts = 3
+const normStoreNum = (s) => String(s ?? '').replace(/^0+/, '') || '0'
 
+async function fetchWithRetry(url) {
+  const maxAttempts = 3
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     const res = await fetch(url, { headers: { 'Accept': 'application/json' } })
     if (res.ok) return res.json()
@@ -61,8 +57,6 @@ async function fetchInventory(storeNums, productCodes) {
       throw new Error(`HTTP ${res.status}`)
     }
 
-    // Respect Retry-After (seconds or HTTP date) when provided, else
-    // exponential backoff with jitter: ~1s, ~2s, ~4s.
     const retryAfter = res.headers.get('Retry-After')
     let waitMs
     if (retryAfter) {
@@ -76,6 +70,52 @@ async function fetchInventory(storeNums, productCodes) {
     }
     await new Promise(r => setTimeout(r, waitMs))
   }
+}
+
+// Fan out across anchor stores. The storeNearby endpoint returns at most
+// 6 stores per call, so we iterate our tracked stores as anchors and stop
+// once every tracked store has been covered by some response.
+async function fetchInventory(storeNums, productCodes) {
+  if (!storeNums.length || !productCodes.length) return []
+  const seen = new Set()   // `${store}|${code}` — dedupe across overlapping responses
+  const rows = []
+  for (const code of productCodes) {
+    const needed = new Set(storeNums.map(normStoreNum))
+    for (const store of storeNums) {
+      if (needed.size === 0) break
+      if (!needed.has(normStoreNum(store))) continue
+      const params = new URLSearchParams({
+        storeNumber: store,
+        productCode: code,
+        mileRadius: '999',
+        storeCount: '6',
+        buffer: '0',
+      })
+      const data = await fetchWithRetry(`${ENDPOINT}?${params}`)
+      // Response shape:
+      //   { products: [{ productId, storeInfo: {...}, nearbyStores: [{...}] }] }
+      const products = Array.isArray(data?.products) ? data.products : []
+      for (const prod of products) {
+        const prodCode = String(prod.productId ?? code)
+        const entries = [prod.storeInfo, ...(prod.nearbyStores ?? [])]
+        for (const info of entries) {
+          if (!info) continue
+          const rowStore = normStoreNum(info.storeId)
+          if (!rowStore) continue
+          needed.delete(rowStore)
+          const key = `${rowStore}|${prodCode}`
+          if (seen.has(key)) continue
+          seen.add(key)
+          rows.push({
+            storeNumber: rowStore,
+            productCode: prodCode,
+            quantity: info.quantity,
+          })
+        }
+      }
+    }
+  }
+  return rows
 }
 
 function indexInventory(payload) {
