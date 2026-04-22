@@ -49,6 +49,7 @@ button {
   display: grid;
   grid-template-rows: auto auto 1fr auto;
   height: 100vh;
+  height: 100dvh;    /* iOS Safari — survives URL-bar show/hide */
 }
 
 /* ============================================================== TOP BAR */
@@ -516,4 +517,75 @@ button {
   .controls { padding: 10px 18px; flex-wrap: wrap; gap: 14px; }
   .controls__status { margin-left: 0; width: 100%; }
   .foot { padding: 8px 18px; flex-wrap: wrap; gap: 8px; }
+}
+
+/* ---------------------------------- iPhone / narrow phones (≤ 640px) ---- */
+
+@media (max-width: 640px) {
+  html, body, #root { font-size: 13px; }
+
+  .topbar {
+    padding: 12px 14px 10px;
+    gap: 10px;
+    padding-top: calc(12px + env(safe-area-inset-top));
+  }
+  .brand { gap: 10px; flex: 1 1 100%; }
+  .brand__mark { font-size: 22px; }
+  .brand__name  { font-size: 18px; }
+  .brand__sub   { display: none; }
+
+  .topbar__meta {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .stat__num   { font-size: 20px; }
+  .stat__over  { font-size: 12px; }
+  .stat__label { font-size: 9px; letter-spacing: 0.12em; }
+
+  .refresh { padding: 10px 14px; font-size: 10px; letter-spacing: 0.14em; }
+
+  .products { padding: 8px 14px; gap: 10px; }
+  .products__label { display: none; }
+  .chip { padding: 8px 12px; font-size: 11px; }
+
+  .controls { padding: 10px 14px; gap: 10px; }
+  .controls__group { flex-wrap: wrap; }
+  .controls__label { width: 100%; }
+  .controls__status { font-size: 9px; }
+  .seg__btn { padding: 8px 12px; font-size: 10px; }
+  .toggle { padding: 8px 12px; font-size: 10px; }
+
+  /* Split the viewport roughly 45/55: list stays scrollable, map keeps
+     enough real estate to read the cluster layout. */
+  .body { grid-template-rows: minmax(0, 45%) minmax(0, 55%); }
+
+  .store { padding: 12px 14px; }
+  .store__name  { font-size: 15px; }
+  .store__addr  { font-size: 11px; }
+  .bar__label   { max-width: 100%; }
+
+  .foot {
+    padding: 8px 14px;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    gap: 8px;
+    font-size: 9px;
+  }
+  .foot__legend { gap: 10px; flex-wrap: wrap; }
+
+  .error { margin: 10px 14px 0; padding: 10px 36px 10px 12px; font-size: 12px; }
+
+  .pop { min-width: 180px; }
+}
+
+/* ---------------------------------- very narrow (≤ 380px, iPhone SE) ---- */
+
+@media (max-width: 380px) {
+  .topbar { padding: 10px 12px 8px; }
+  .products { padding: 6px 12px; }
+  .controls { padding: 8px 12px; }
+  .stat__num { font-size: 18px; }
+  .refresh { padding: 9px 12px; }
+  .foot { padding: 8px 12px; font-size: 8px; }
+  .foot__legend { gap: 8px; }
 }
