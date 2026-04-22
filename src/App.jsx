@@ -18,13 +18,13 @@ const INTERVALS = [
 ]
 
 const stockColor = (qty) => {
-  if (qty == null || qty === '?' || qty === '—') return '#5a5044'
+  if (qty == null || qty === '?' || qty === '—') return '#8a7a62'
   const n = Number(qty)
-  if (Number.isNaN(n)) return '#5a5044'
-  if (n <= 0)  return '#3a2a2a'
-  if (n < 3)   return '#d97706'
-  if (n < 10)  return '#eab308'
-  return '#84cc16'
+  if (Number.isNaN(n)) return '#8a7a62'
+  if (n <= 0)  return '#6b2424'
+  if (n < 3)   return '#f59e0b'   // 1-2  low
+  if (n < 6)   return '#facc15'   // 3-5  some
+  return '#a3e635'                // 6+   plenty
 }
 
 const stockLabel = (qty) => {
@@ -565,11 +565,11 @@ export default function App() {
             : 'awaiting first scout'}
         </span>
         <span className="foot__legend">
-          <i style={{ background: '#84cc16' }} /> plenty
-          <i style={{ background: '#eab308' }} /> some
-          <i style={{ background: '#d97706' }} /> low
-          <i style={{ background: '#3a2a2a' }} /> out
-          <i style={{ background: '#5a5044' }} /> unknown
+          <i style={{ background: '#a3e635' }} /> plenty
+          <i style={{ background: '#facc15' }} /> some
+          <i style={{ background: '#f59e0b' }} /> low
+          <i style={{ background: '#6b2424' }} /> out
+          <i style={{ background: '#8a7a62' }} /> unknown
         </span>
       </footer>
     </div>
