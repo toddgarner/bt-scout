@@ -421,6 +421,21 @@ export default function App() {
     }).length
   }, [inventory, activeProducts])
 
+  // Sort the list by total bottles in stock, descending. Ties keep
+  // their original (geographic-ish) order because Array.sort is stable.
+  const sortedStores = useMemo(() => {
+    const totalFor = (s) => {
+      const inv = inventory[s.num.replace(/^0+/, '')] || {}
+      let sum = 0
+      for (const p of activeProducts) {
+        const n = Number(inv[p.code])
+        if (Number.isFinite(n) && n > 0) sum += n
+      }
+      return sum
+    }
+    return [...STORES].sort((a, b) => totalFor(b) - totalFor(a))
+  }, [inventory, activeProducts])
+
   // Countdown to next auto-refresh
   const nextCheckLabel = useMemo(() => {
     if (!intervalMs || !lastChecked) return null
@@ -535,7 +550,7 @@ export default function App() {
 
       <div className="body" data-view={mobileView}>
         <aside className="list">
-          {STORES.map(s => (
+          {sortedStores.map(s => (
             <StoreRow
               key={s.num}
               store={s}
