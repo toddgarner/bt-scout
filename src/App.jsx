@@ -205,6 +205,12 @@ function StoreRow({ store, inventory, activeProducts, selected, onSelect }) {
     const n = Number(storeInv[p.code])
     return Number.isFinite(n) && n > 0 ? sum + n : sum
   }, 0)
+  // Show in-stock products first, descending by quantity. Stable sort
+  // keeps the original product order within ties (incl. all the zeros).
+  const sortedProducts = [...activeProducts].sort((a, b) => {
+    const na = Number(storeInv[a.code]); const nb = Number(storeInv[b.code])
+    return (Number.isFinite(nb) ? nb : 0) - (Number.isFinite(na) ? na : 0)
+  })
 
   return (
     <button
@@ -224,7 +230,7 @@ function StoreRow({ store, inventory, activeProducts, selected, onSelect }) {
       </div>
       <div className="store__addr">{store.address}</div>
       <div className="store__bars">
-        {activeProducts.map(p => {
+        {sortedProducts.map(p => {
           const qty = storeInv[p.code]
           const n = Number(qty)
           const pct = Number.isFinite(n) && n > 0 ? Math.min(100, n * 8) : 0
