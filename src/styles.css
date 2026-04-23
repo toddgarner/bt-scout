@@ -167,6 +167,8 @@ button {
   flex-shrink: 0;
 }
 
+.products__summary { display: none; }
+
 .products__chips {
   display: flex;
   gap: 8px;
@@ -579,8 +581,40 @@ button {
 
   .refresh { padding: 10px 14px; font-size: 10px; letter-spacing: 0.14em; }
 
-  .products { padding: 8px 14px; gap: 10px; }
+  /* Collapse the product picker into a dropdown so the store list has
+     room to breathe. The chips hide behind a summary button and only
+     expand when the user taps. */
+  .products {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    gap: 0;
+  }
   .products__label { display: none; }
+  .products__summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    text-align: left;
+  }
+  .products__summary-label { color: var(--ink-quiet); }
+  .products__summary-count { flex: 1; color: var(--ink); letter-spacing: 0.12em; }
+  .products__caret {
+    color: var(--ink-quiet);
+    transition: transform 160ms ease;
+  }
+  .products--open .products__caret { transform: rotate(180deg); }
+  .products__chips {
+    display: none;
+    padding: 4px 14px 12px;
+  }
+  .products--open .products__chips { display: flex; }
   .chip { padding: 8px 12px; font-size: 11px; }
 
   .controls { padding: 10px 14px; gap: 10px; }

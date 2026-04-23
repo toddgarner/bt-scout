@@ -160,10 +160,25 @@ function findNewlyInStock(previous, current, stores, products) {
 // ---------------------------------------------------------------------------
 
 function ProductPicker({ products, activeCodes, onToggle }) {
+  const [open, setOpen] = useState(false)
+  const selectedCount = activeCodes.size
   return (
-    <div className="products">
+    <div className={`products ${open ? 'products--open' : ''}`}>
+      <button
+        type="button"
+        className="products__summary"
+        onClick={() => setOpen(v => !v)}
+        aria-expanded={open}
+        aria-controls="product-chips"
+      >
+        <span className="products__summary-label">Tracking</span>
+        <span className="products__summary-count">
+          {selectedCount} of {products.length}
+        </span>
+        <span className="products__caret" aria-hidden="true">▾</span>
+      </button>
       <div className="products__label">TRACKING</div>
-      <div className="products__chips">
+      <div id="product-chips" className="products__chips">
         {products.map(p => {
           const on = activeCodes.has(p.code)
           return (
