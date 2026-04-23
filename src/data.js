@@ -13,6 +13,12 @@ export const STORES = [
   { num: '412', label: 'North Stafford', address: '50 N Stafford Complex Ctr', lat: 38.4840, lon: -77.4280 },
   { num: '440', label: 'Waynesboro', address: '219 Arch Ave', lat: 38.0685, lon: -78.8895 },
   { num: '122', label: 'Staunton', address: '201 State Street', lat: 38.1496, lon: -79.0722 },
+  { num: '95',  label: 'Spotsylvania — Massaponax',   address: '10007 Patriot Hwy',      lat: 38.2250, lon: -77.5250 },
+  { num: '103', label: 'Spotsylvania — N. Patriot Hwy', address: '6348 Patriot Hwy',      lat: 38.2530, lon: -77.5100 },
+  { num: '121', label: 'Fredericksburg — Downtown',   address: '507 William St',         lat: 38.3020, lon: -77.4600 },
+  { num: '209', label: 'Spotsylvania — Southpoint',   address: '10724 Patriot Hwy',      lat: 38.2060, lon: -77.5380 },
+  { num: '245', label: 'Fredericksburg — Central',    address: '1249 Emancipation Hwy',  lat: 38.2890, lon: -77.4780 },
+  { num: '44',  label: 'Ruther Glen',                 address: '17495 US-1',             lat: 37.9650, lon: -77.4650 },
 ]
 
 // Products you can toggle on in the UI. Add more codes here to extend.
