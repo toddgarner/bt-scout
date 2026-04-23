@@ -265,9 +265,11 @@ export default function App() {
   const [error, setError] = useState(null)
   const [lastChecked, setLastChecked] = useState(null)
   const [selectedStore, setSelectedStore] = useState(null)
+  const [mobileView, setMobileView] = useState('list')
   const [now, setNow] = useState(() => Date.now())
   const prevInventoryRef = useRef({})
   const inFlightRef = useRef(false)
+  const mapRef = useRef(null)
 
   const { status: notifStatus, request: requestNotif, send: sendNotif } = useNotifications()
 
@@ -354,6 +356,13 @@ export default function App() {
     const id = setInterval(() => setNow(Date.now()), 30000)
     return () => clearInterval(id)
   }, [])
+
+  // --- Leaflet needs to recalc its size after the pane is re-shown on mobile
+  useEffect(() => {
+    if (mobileView !== 'map') return undefined
+    const id = setTimeout(() => mapRef.current?.invalidateSize(), 60)
+    return () => clearTimeout(id)
+  }, [mobileView])
 
   // --- Notification toggle handler ----------------------------------------
   const handleNotifyToggle = async () => {
@@ -488,7 +497,28 @@ export default function App() {
         </div>
       )}
 
-      <div className="body">
+      <div className="viewtabs" role="tablist" aria-label="View">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={mobileView === 'list'}
+          className={`viewtabs__btn ${mobileView === 'list' ? 'viewtabs__btn--on' : ''}`}
+          onClick={() => setMobileView('list')}
+        >
+          List
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={mobileView === 'map'}
+          className={`viewtabs__btn ${mobileView === 'map' ? 'viewtabs__btn--on' : ''}`}
+          onClick={() => setMobileView('map')}
+        >
+          Map
+        </button>
+      </div>
+
+      <div className="body" data-view={mobileView}>
         <aside className="list">
           {STORES.map(s => (
             <StoreRow
@@ -507,6 +537,7 @@ export default function App() {
             center={[38.25, -78.1]}
             zoom={8}
             zoomControl={false}
+            ref={mapRef}
             style={{ height: '100%', width: '100%' }}
           >
             <TileLayer

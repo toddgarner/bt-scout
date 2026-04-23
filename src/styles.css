@@ -46,8 +46,8 @@ button {
 }
 
 .app {
-  display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   height: 100dvh;    /* iOS Safari — survives URL-bar show/hide */
 }
@@ -152,11 +152,11 @@ button {
 .products {
   display: flex;
   align-items: center;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 12px 16px;
   padding: 12px 28px;
   border-bottom: 1px solid var(--line);
   background: var(--bg-raised);
-  overflow-x: auto;
 }
 
 .products__label {
@@ -288,9 +288,36 @@ button {
   box-shadow: 0 0 8px var(--lime);
 }
 
+/* ============================================================== VIEW TABS (mobile) */
+
+.viewtabs {
+  display: none;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.viewtabs__btn {
+  flex: 1;
+  padding: 12px 14px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-quiet);
+  border-bottom: 2px solid transparent;
+  transition: color 140ms, border-color 140ms, background 140ms;
+}
+.viewtabs__btn:hover { color: var(--ink); }
+.viewtabs__btn--on {
+  color: var(--amber);
+  border-bottom-color: var(--amber);
+  background: rgba(217, 119, 6, 0.06);
+}
+
 /* ============================================================== BODY */
 
 .body {
+  flex: 1;
+  min-height: 0;
   display: grid;
   grid-template-columns: minmax(340px, 420px) 1fr;
   overflow: hidden;
@@ -509,14 +536,21 @@ button {
 /* ============================================================== MOBILE */
 
 @media (max-width: 860px) {
-  .body { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
-  .list { border-right: 0; border-bottom: 1px solid var(--line); }
   .topbar { flex-wrap: wrap; gap: 12px; padding: 14px 18px 10px; }
   .topbar__meta { gap: 18px; }
   .products { padding: 10px 18px; }
   .controls { padding: 10px 18px; flex-wrap: wrap; gap: 14px; }
   .controls__status { margin-left: 0; width: 100%; }
   .foot { padding: 8px 18px; flex-wrap: wrap; gap: 8px; }
+}
+
+/* ---------------------------------- tablet / narrow desktop (≤ 860px) */
+
+@media (max-width: 860px) and (min-width: 641px) {
+  .body { grid-template-columns: minmax(0, 300px) 1fr; }
+  .list { font-size: 12px; }
+  .store { padding: 12px 16px; }
+  .bar__label { max-width: 140px; }
 }
 
 /* ---------------------------------- iPhone / narrow phones (≤ 640px) ---- */
@@ -556,9 +590,13 @@ button {
   .seg__btn { padding: 8px 12px; font-size: 10px; }
   .toggle { padding: 8px 12px; font-size: 10px; }
 
-  /* Split the viewport roughly 45/55: list stays scrollable, map keeps
-     enough real estate to read the cluster layout. */
-  .body { grid-template-rows: minmax(0, 45%) minmax(0, 55%); }
+  /* On phones, use the tab switcher so each view gets the full area. */
+  .viewtabs { display: flex; }
+  .body { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+  .list, .map { grid-column: 1; grid-row: 1; }
+  .body[data-view="list"] .map { display: none; }
+  .body[data-view="map"]  .list { display: none; }
+  .list { border-right: 0; }
 
   .store { padding: 12px 14px; }
   .store__name  { font-size: 15px; }
