@@ -27,5 +27,4 @@ export const PRODUCTS = [
   { code: '027101', name: 'E.H. Taylor Straight Rye', defaultOn: false },
   { code: '025091', name: 'E.H. Taylor Barrel Proof', defaultOn: false },
   { code: '021106', name: 'Pure Kentucky XO', defaultOn: false },
-  { code: '016562', name: 'Angels Envy', defaultOn: false },
 ]
