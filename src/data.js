@@ -27,5 +27,4 @@ export const PRODUCTS = [
   { code: '025091', name: 'E.H. Taylor Barrel Proof', defaultOn: false },
   { code: '021106', name: 'Pure Kentucky XO', defaultOn: false },
   { code: '020384', name: 'Old Forester 1924 Craft Bourbon 750ml', defaultOn: false },
-  { code: '021986', name: 'W.L. Weller Special Reserve', defaultOn: false },
 ]
