@@ -19,7 +19,6 @@ export const STORES = [
 // Codes come from the VA ABC product catalog (the 6-digit NC code).
 export const PRODUCTS = [
   { code: '018006', name: 'Buffalo Trace 750ml', defaultOn: true },
-  { code: '018007', name: 'Buffalo Trace 1L', defaultOn: false },
   { code: '016850', name: 'Blanton\'s Single Barrel 750ml', defaultOn: true },
   { code: '017766', name: 'Eagle Rare 10yr 750ml', defaultOn: false },
   { code: '016483', name: 'Old Fitzgerald BiB', defaultOn: false },
