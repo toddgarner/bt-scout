@@ -40,6 +40,17 @@ const qtyNum = (q) => {
   return Number.isFinite(n) ? n : null
 }
 
+// Great-circle distance in miles. Good enough for sorting; we're not navigating.
+function distanceMiles(lat1, lon1, lat2, lon2) {
+  const R = 3958.8
+  const toRad = (d) => d * Math.PI / 180
+  const dLat = toRad(lat2 - lat1)
+  const dLon = toRad(lon2 - lon1)
+  const a = Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2
+  return 2 * R * Math.asin(Math.sqrt(a))
+}
+
 // ---------------------------------------------------------------------------
 // Data fetching
 // ---------------------------------------------------------------------------
@@ -199,7 +210,7 @@ function ProductPicker({ products, activeCodes, onToggle }) {
   )
 }
 
-function StoreRow({ store, inventory, activeProducts, selected, onSelect }) {
+function StoreRow({ store, inventory, activeProducts, distance, selected, onSelect }) {
   const storeInv = inventory[store.num.replace(/^0+/, '')] || {}
   const total = activeProducts.reduce((sum, p) => {
     const n = Number(storeInv[p.code])
@@ -221,6 +232,9 @@ function StoreRow({ store, inventory, activeProducts, selected, onSelect }) {
       <div className="store__head">
         <span className="store__num">#{store.num}</span>
         <span className="store__name">{store.label}</span>
+        {distance != null && (
+          <span className="store__dist">{distance.toFixed(1)} mi</span>
+        )}
         <span
           className="store__total"
           style={{ color: total === 0 ? '#6b5a48' : '#e7d9bb' }}
@@ -287,6 +301,8 @@ export default function App() {
   const [lastChecked, setLastChecked] = useState(null)
   const [selectedStore, setSelectedStore] = useState(null)
   const [mobileView, setMobileView] = useState('list')
+  const [userLoc, setUserLoc] = useState(null)        // { lat, lon } | null
+  const [locStatus, setLocStatus] = useState('idle')  // 'idle' | 'requesting' | 'granted' | 'denied' | 'unavailable'
   const [now, setNow] = useState(() => Date.now())
   const prevInventoryRef = useRef({})
   const inFlightRef = useRef(false)
@@ -385,6 +401,40 @@ export default function App() {
     return () => clearTimeout(id)
   }, [mobileView])
 
+  // --- Geolocation ---------------------------------------------------------
+  const requestLocation = useCallback(() => {
+    if (typeof navigator === 'undefined' || !navigator.geolocation) {
+      setLocStatus('unavailable')
+      setError('Geolocation is not available in this browser.')
+      return
+    }
+    setLocStatus('requesting')
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const next = { lat: pos.coords.latitude, lon: pos.coords.longitude }
+        setUserLoc(next)
+        setLocStatus('granted')
+        // Pan the map to the user so they see the closest stores at a glance.
+        if (mapRef.current) mapRef.current.setView([next.lat, next.lon], 9)
+      },
+      (err) => {
+        if (err.code === 1) {
+          setLocStatus('denied')
+          setError('Location permission was denied. Enable it in your browser settings to sort by distance.')
+        } else {
+          setLocStatus('unavailable')
+          setError('Could not get your location. Try again in a moment.')
+        }
+      },
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 5 * 60 * 1000 },
+    )
+  }, [])
+
+  const clearLocation = useCallback(() => {
+    setUserLoc(null)
+    setLocStatus('idle')
+  }, [])
+
   // --- Notification toggle handler ----------------------------------------
   const handleNotifyToggle = async () => {
     if (!notifyEnabled) {
@@ -427,20 +477,35 @@ export default function App() {
     }).length
   }, [inventory, activeProducts])
 
-  // Sort the list by total bottles in stock, descending. Ties keep
-  // their original (geographic-ish) order because Array.sort is stable.
+  // Decorate stores with their bottle total and (if we have a user
+  // location) distance. Default sort: most bottles first. With a user
+  // location: in-stock stores first, ordered by distance ascending —
+  // out-of-stock stores fall to the bottom, also by distance.
   const sortedStores = useMemo(() => {
-    const totalFor = (s) => {
+    const decorated = STORES.map(s => {
       const inv = inventory[s.num.replace(/^0+/, '')] || {}
-      let sum = 0
+      let total = 0
       for (const p of activeProducts) {
         const n = Number(inv[p.code])
-        if (Number.isFinite(n) && n > 0) sum += n
+        if (Number.isFinite(n) && n > 0) total += n
       }
-      return sum
+      const distance = userLoc
+        ? distanceMiles(userLoc.lat, userLoc.lon, s.lat, s.lon)
+        : null
+      return { store: s, total, distance }
+    })
+    if (userLoc) {
+      decorated.sort((a, b) => {
+        const aHas = a.total > 0 ? 0 : 1
+        const bHas = b.total > 0 ? 0 : 1
+        if (aHas !== bHas) return aHas - bHas
+        return a.distance - b.distance
+      })
+    } else {
+      decorated.sort((a, b) => b.total - a.total)
     }
-    return [...STORES].sort((a, b) => totalFor(b) - totalFor(a))
-  }, [inventory, activeProducts])
+    return decorated
+  }, [inventory, activeProducts, userLoc])
 
   // Countdown to next auto-refresh
   const nextCheckLabel = useMemo(() => {
@@ -468,6 +533,21 @@ export default function App() {
             <div className="stat__num">{storesWithStock}<span className="stat__over">/{STORES.length}</span></div>
             <div className="stat__label">stores w/ stock</div>
           </div>
+          <button
+            type="button"
+            className={`nearme ${userLoc ? 'nearme--on' : ''}`}
+            onClick={userLoc ? clearLocation : requestLocation}
+            disabled={locStatus === 'requesting'}
+            title={
+              userLoc ? 'Sorted by distance from your location — click to clear'
+              : locStatus === 'denied' ? 'Location blocked — enable it in browser settings'
+              : 'Sort the list by distance from your current location'
+            }
+          >
+            {locStatus === 'requesting' ? 'locating…'
+              : userLoc ? '✓ near me'
+              : 'near me'}
+          </button>
           <button
             type="button"
             className="refresh"
@@ -556,14 +636,15 @@ export default function App() {
 
       <div className="body" data-view={mobileView}>
         <aside className="list">
-          {sortedStores.map(s => (
+          {sortedStores.map(({ store, distance }) => (
             <StoreRow
-              key={s.num}
-              store={s}
+              key={store.num}
+              store={store}
               inventory={inventory}
               activeProducts={activeProducts}
-              selected={selectedStore === s.num}
-              onSelect={() => setSelectedStore(s.num === selectedStore ? null : s.num)}
+              distance={distance}
+              selected={selectedStore === store.num}
+              onSelect={() => setSelectedStore(store.num === selectedStore ? null : store.num)}
             />
           ))}
         </aside>
@@ -581,6 +662,20 @@ export default function App() {
               url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
             />
             <ZoomControl position="bottomright" />
+            {userLoc && (
+              <CircleMarker
+                center={[userLoc.lat, userLoc.lon]}
+                radius={7}
+                pathOptions={{
+                  color: '#60a5fa',
+                  fillColor: '#60a5fa',
+                  fillOpacity: 0.95,
+                  weight: 2,
+                }}
+              >
+                <Popup>You are here</Popup>
+              </CircleMarker>
+            )}
             {STORES.map(s => {
               const inv = inventory[s.num.replace(/^0+/, '')] || {}
               const best = activeProducts.reduce((max, p) => {

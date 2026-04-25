@@ -96,7 +96,8 @@ button {
 .topbar__meta {
   display: flex;
   align-items: center;
-  gap: 28px;
+  flex-wrap: wrap;
+  gap: 18px 28px;
 }
 
 .stat {
@@ -146,6 +147,28 @@ button {
   opacity: 0.45;
   cursor: not-allowed;
 }
+
+.nearme {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  border: 1px solid var(--line-2);
+  color: var(--ink-dim);
+  background: transparent;
+  transition: background 160ms, color 160ms, border-color 160ms;
+}
+.nearme:hover:not(:disabled) {
+  color: var(--ink);
+  border-color: var(--ink-dim);
+}
+.nearme--on {
+  color: #60a5fa;
+  border-color: #60a5fa;
+  background: rgba(96, 165, 250, 0.08);
+}
+.nearme:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* ============================================================== PRODUCTS */
 
@@ -379,6 +402,13 @@ button {
   font-size: 11px;
   letter-spacing: 0.06em;
   color: var(--ink-dim);
+}
+
+.store__dist {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #60a5fa;
+  flex-shrink: 0;
 }
 
 .store__addr {
