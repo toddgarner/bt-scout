@@ -9,7 +9,7 @@ export const STORES = [
   { num: '316', label: 'Dumfries', address: '4108 Fortuna Center Plaza', lat: 38.5700, lon: -77.3360 },
   { num: '338', label: 'Charlottesville', address: '125 Lucy Lane', lat: 38.0293, lon: -78.4767 },
   { num: '386', label: 'Stuarts Draft', address: '2576 Stuarts Draft Hwy', lat: 38.0300, lon: -79.0244 },
-  { num: '406', label: 'Stafford Publix', address: '1630 Publix Way', lat: 38.4843, lon: -77.4543 },
+  { num: '406', label: 'Stafford Publix', address: '1630 Publix Way', lat: 38.4862, lon: -77.4505 },
   { num: '412', label: 'North Stafford', address: '50 N Stafford Complex Ctr', lat: 38.4840, lon: -77.4280 },
   { num: '440', label: 'Waynesboro', address: '219 Arch Ave', lat: 38.0685, lon: -78.8895 },
   { num: '122', label: 'Staunton', address: '201 State Street', lat: 38.1496, lon: -79.0722 },
