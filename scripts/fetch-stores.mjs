@@ -36,8 +36,9 @@ const HEADERS = {
 // riding along in the response.
 const PROBE_PRODUCT = '018006'
 
-// Politeness: rough cap so a misbehaving response can't hammer the API.
-const REQUEST_GAP_MS = 150
+// Politeness: throttle and a hard cap so a misbehaving response can't
+// hammer the API. 500ms × 1000 calls = ~8 minutes worst case.
+const REQUEST_GAP_MS = 500
 const MAX_CALLS = 1000
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms))

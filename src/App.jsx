@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import { MapContainer, TileLayer, CircleMarker, Popup, ZoomControl } from 'react-leaflet'
 import { STORES, PRODUCTS } from './data.js'
+import STORES_ALL_RAW from './stores.all.json'
 import { useLocalState, useNotifications, useLatest } from './hooks.js'
+
+// Cap on tracked favorites. Each favorite becomes an anchor on refresh,
+// so this also caps the per-refresh API call count.
+const MAX_FAVORITES = 30
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -241,7 +246,7 @@ function ProductPicker({ products, activeCodes, onToggle }) {
   )
 }
 
-function StoreRow({ store, inventory, activeProducts, distance, selected, onSelect }) {
+function StoreRow({ store, inventory, activeProducts, distance, isFavorite, selected, onSelect, onToggleFavorite }) {
   const storeInv = inventory[store.num.replace(/^0+/, '')] || {}
   const total = activeProducts.reduce((sum, p) => {
     const n = Number(storeInv[p.code])
@@ -255,10 +260,14 @@ function StoreRow({ store, inventory, activeProducts, distance, selected, onSele
   })
 
   return (
-    <button
-      type="button"
+    <div
       className={`store ${selected ? 'store--selected' : ''}`}
+      role="button"
+      tabIndex={0}
       onClick={onSelect}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect() }
+      }}
     >
       <div className="store__head">
         <span className="store__num">#{store.num}</span>
@@ -272,6 +281,18 @@ function StoreRow({ store, inventory, activeProducts, distance, selected, onSele
         >
           {total} btl
         </span>
+        {onToggleFavorite && (
+          <button
+            type="button"
+            className={`store__star ${isFavorite ? 'store__star--on' : ''}`}
+            onClick={(e) => { e.stopPropagation(); onToggleFavorite() }}
+            aria-pressed={isFavorite}
+            aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          >
+            ★
+          </button>
+        )}
       </div>
       <div className="store__addr">{store.address}</div>
       <div className="store__bars">
@@ -296,7 +317,7 @@ function StoreRow({ store, inventory, activeProducts, distance, selected, onSele
           )
         })}
       </div>
-    </button>
+    </div>
   )
 }
 
@@ -324,10 +345,19 @@ export default function App() {
   const activeCodes = useMemo(() => new Set(activeCodesArr), [activeCodesArr])
   const [intervalKey, setIntervalKey] = useLocalState('bt.interval', '4h')
   const [notifyEnabled, setNotifyEnabled] = useLocalState('bt.notify', false)
+  // Favorites bootstrap to the curated short-list so existing users see
+  // the same stores they used to. They can star/unstar anything.
+  const [favoriteNumsArr, setFavoriteNumsArr] = useLocalState(
+    'bt.favorites',
+    STORES.map(s => s.num),
+  )
+  const favoriteNums = useMemo(() => new Set(favoriteNumsArr), [favoriteNumsArr])
 
   // --- Runtime state ------------------------------------------------------
   const [inventory, setInventory] = useState({})
-  const [discoveredStores, setDiscoveredStores] = useState({})
+  // Discovered stores (harvested from API responses) survive reloads so
+  // a starred store doesn't vanish if it isn't in the static directory.
+  const [discoveredStores, setDiscoveredStores] = useLocalState('bt.discovered', {})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [lastChecked, setLastChecked] = useState(null)
@@ -356,19 +386,53 @@ export default function App() {
     })
   }
 
-  // When the user has shared their location, anchor the lookup on the
-  // single closest curated store. The storeNearby response radiates
-  // outward from there with up to 5 stores' worth of inventory.
-  // Without a location, fall back to fanning out across the whole
-  // curated short-list (existing behavior).
+  const toggleFavorite = useCallback((num) => {
+    setFavoriteNumsArr(prev => {
+      if (prev.includes(num)) return prev.filter(n => n !== num)
+      if (prev.length >= MAX_FAVORITES) {
+        setError(`Favorites are capped at ${MAX_FAVORITES}. Unstar one first.`)
+        return prev
+      }
+      return [...prev, num]
+    })
+  }, [setFavoriteNumsArr])
+
+  // Every store we know about, keyed by num. Curated short-list seeds it,
+  // the static directory (after running scripts/fetch-stores.mjs) augments,
+  // and stores discovered at runtime via storeNearby fill in anything else.
+  const knownStores = useMemo(() => {
+    const m = new Map()
+    for (const s of STORES) m.set(s.num, s)
+    if (Array.isArray(STORES_ALL_RAW)) {
+      for (const s of STORES_ALL_RAW) m.set(s.num, s)
+    }
+    for (const [num, meta] of Object.entries(discoveredStores)) {
+      if (!m.has(num)) m.set(num, meta)
+    }
+    return m
+  }, [discoveredStores])
+
+  const favoriteStores = useMemo(() => {
+    return favoriteNumsArr.map(n => knownStores.get(n)).filter(Boolean)
+  }, [favoriteNumsArr, knownStores])
+
+  // Anchor selection for fetchInventory. Without a location we fan out
+  // across favorites (capped at MAX_FAVORITES). With a location we use
+  // the single closest store we know about — the storeNearby response
+  // then radiates outward with up to 5 stores' worth of inventory.
   const anchorNums = useMemo(() => {
-    if (!userLoc) return STORES.map(s => s.num)
-    const closest = [...STORES].sort((a, b) =>
+    const fanOut = favoriteStores.length > 0 ? favoriteStores : STORES
+    if (!userLoc) return fanOut.map(s => s.num)
+    const candidates = [...knownStores.values()].filter(
+      s => s.lat != null && s.lon != null
+    )
+    const pool = candidates.length > 0 ? candidates : STORES
+    const closest = [...pool].sort((a, b) =>
       distanceMiles(userLoc.lat, userLoc.lon, a.lat, a.lon) -
       distanceMiles(userLoc.lat, userLoc.lon, b.lat, b.lon)
     )[0]
-    return closest ? [closest.num] : STORES.map(s => s.num)
-  }, [userLoc])
+    return closest ? [closest.num] : fanOut.map(s => s.num)
+  }, [userLoc, favoriteStores, knownStores])
 
   // --- The core fetch -----------------------------------------------------
   const refresh = useCallback(async () => {
@@ -507,23 +571,24 @@ export default function App() {
   }
 
   // The set of stores the UI cares about right now. Without a user
-  // location it's the curated short-list. With a location it's the 5
-  // stores closest to the user — first from the API-discovered set
-  // (populated after the first refresh), with a sensible fallback to
-  // the curated list while that fetch is in flight.
+  // location it's the user's favorites (falling back to the curated
+  // short-list if they haven't picked any yet). With a location it's
+  // the 5 stores closest to the user, drawn from everything we know.
   const displayStores = useMemo(() => {
-    if (!userLoc) return STORES
+    if (!userLoc) {
+      return favoriteStores.length > 0 ? favoriteStores : STORES
+    }
     const NEAREST_N = 5
-    const fromDiscovered = Object.values(discoveredStores).filter(
+    const candidates = [...knownStores.values()].filter(
       s => s.lat != null && s.lon != null
     )
-    const pool = fromDiscovered.length > 0 ? fromDiscovered : STORES
+    const pool = candidates.length > 0 ? candidates : STORES
     return [...pool]
       .map(s => ({ s, d: distanceMiles(userLoc.lat, userLoc.lon, s.lat, s.lon) }))
       .sort((a, b) => a.d - b.d)
       .slice(0, NEAREST_N)
       .map(x => x.s)
-  }, [userLoc, discoveredStores])
+  }, [userLoc, favoriteStores, knownStores])
 
   // --- Derived stats ------------------------------------------------------
   const totalBottles = useMemo(() => {
@@ -704,6 +769,12 @@ export default function App() {
 
       <div className="body" data-view={mobileView}>
         <aside className="list">
+          {sortedStores.length === 0 && (
+            <div className="empty">
+              No favorites yet — turn on <strong>Near me</strong> and tap the ★
+              on a store to keep tabs on it.
+            </div>
+          )}
           {sortedStores.map(({ store, distance }) => (
             <StoreRow
               key={store.num}
@@ -711,8 +782,10 @@ export default function App() {
               inventory={inventory}
               activeProducts={activeProducts}
               distance={distance}
+              isFavorite={favoriteNums.has(store.num)}
               selected={selectedStore === store.num}
               onSelect={() => setSelectedStore(store.num === selectedStore ? null : store.num)}
+              onToggleFavorite={() => toggleFavorite(store.num)}
             />
           ))}
         </aside>
