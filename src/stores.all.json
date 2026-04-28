@@ -1,1 +1,1106 @@
-[]
+[
+  {
+    "num": "33",
+    "label": "Store #33",
+    "address": "12705 Galveston Court",
+    "city": "Manassas",
+    "lat": 38.6804,
+    "lon": -77.3641
+  },
+  {
+    "num": "35",
+    "label": "Store #35",
+    "address": "2757 Richmond Highway",
+    "city": "Stafford",
+    "lat": 38.4559,
+    "lon": -77.4068
+  },
+  {
+    "num": "36",
+    "label": "Store #36",
+    "address": "7953 Stonewall Shops Square, Suite 220",
+    "city": "Gainsville",
+    "lat": 38.7858,
+    "lon": -77.6491
+  },
+  {
+    "num": "40",
+    "label": "Store #40",
+    "address": "22000 Dulles Retail Plaza",
+    "city": "Sterling",
+    "lat": 39.0056,
+    "lon": -77.438
+  },
+  {
+    "num": "41",
+    "label": "Store #41",
+    "address": "2425 Centreville Rd Suite 10",
+    "city": "Herndon",
+    "lat": 38.9501,
+    "lon": -77.4083
+  },
+  {
+    "num": "44",
+    "label": "Store #44",
+    "address": "17495 US Route 1 Highway",
+    "city": "Ruther Glen",
+    "lat": 38.0074,
+    "lon": -77.517
+  },
+  {
+    "num": "51",
+    "label": "Store #51",
+    "address": "265 Turkey Sag Trail",
+    "city": "Lake Monticello",
+    "lat": 37.9039,
+    "lon": -78.3415
+  },
+  {
+    "num": "54",
+    "label": "Store #54",
+    "address": "42015 Village Center Plaza",
+    "city": "Stone Ridge",
+    "lat": 38.9397,
+    "lon": -77.5493
+  },
+  {
+    "num": "55",
+    "label": "Store #55",
+    "address": "9916 Liberia Avenue",
+    "city": "Manassas",
+    "lat": 38.7198,
+    "lon": -77.3983
+  },
+  {
+    "num": "59",
+    "label": "Store #59",
+    "address": "3136 Halifax Road",
+    "city": "South Boston",
+    "lat": 36.732,
+    "lon": -78.9188
+  },
+  {
+    "num": "61",
+    "label": "Store #61",
+    "address": "22360 S. Sterling Boulevard",
+    "city": "Sterling",
+    "lat": 38.9972,
+    "lon": -77.4084
+  },
+  {
+    "num": "68",
+    "label": "Store #68",
+    "address": "2196 John Wayland Highway",
+    "city": "Harrisonburg",
+    "lat": 38.4317,
+    "lon": -78.9109
+  },
+  {
+    "num": "77",
+    "label": "Store #77",
+    "address": "1800 South Creek One Space H",
+    "city": "Powhatan",
+    "lat": 37.5159,
+    "lon": -77.79
+  },
+  {
+    "num": "78",
+    "label": "Store #78",
+    "address": "5331 Merchants View Square",
+    "city": "Haymarket",
+    "lat": 38.8444,
+    "lon": -77.6416
+  },
+  {
+    "num": "80",
+    "label": "Store #80",
+    "address": "6206 Little River Turnpike",
+    "city": "Alexandria",
+    "lat": 38.8192,
+    "lon": -77.1409
+  },
+  {
+    "num": "81",
+    "label": "Store #81",
+    "address": "1301 S. Joyce Street",
+    "city": "Arlington",
+    "lat": 38.8642,
+    "lon": -77.0633
+  },
+  {
+    "num": "82",
+    "label": "Store #82",
+    "address": "46930 Cedar Lakes Plaza",
+    "city": "Sterling",
+    "lat": 39.0179,
+    "lon": -77.3758
+  },
+  {
+    "num": "89",
+    "label": "Store #89",
+    "address": "34-A Broad Street Road",
+    "city": "Manakin-Sabot",
+    "lat": 37.6713,
+    "lon": -77.6815
+  },
+  {
+    "num": "92",
+    "label": "Store #92",
+    "address": "39  W. Mercury Boulevard",
+    "city": "Hampton",
+    "lat": 37.0425,
+    "lon": -76.3527
+  },
+  {
+    "num": "94",
+    "label": "Store #94",
+    "address": "42385 Ryan Road",
+    "city": "Ashburn",
+    "lat": 38.9862,
+    "lon": -77.537
+  },
+  {
+    "num": "95",
+    "label": "Store #95",
+    "address": "10007 Patriot Highway",
+    "city": "Fredericksburg",
+    "lat": 38.2223,
+    "lon": -77.5062
+  },
+  {
+    "num": "103",
+    "label": "Store #103",
+    "address": "6348 Patriot Highway",
+    "city": "Spotsylvania",
+    "lat": 38.1328,
+    "lon": -77.5234
+  },
+  {
+    "num": "105",
+    "label": "Store #105",
+    "address": "869 Lynnhaven Parkway",
+    "city": "Virginia Beach",
+    "lat": 36.8122,
+    "lon": -76.072
+  },
+  {
+    "num": "106",
+    "label": "Store #106",
+    "address": "2973 Shore Drive",
+    "city": "Virginia Beach",
+    "lat": 36.9101,
+    "lon": -76.0754
+  },
+  {
+    "num": "109",
+    "label": "Store #109",
+    "address": "1922 Wilson Boulevard",
+    "city": "Arlington",
+    "lat": 38.8926,
+    "lon": -77.0818
+  },
+  {
+    "num": "112",
+    "label": "Store #112",
+    "address": "61 North Mallory Street",
+    "city": "Hampton",
+    "lat": 37.0207,
+    "lon": -76.3196
+  },
+  {
+    "num": "115",
+    "label": "Store #115",
+    "address": "1423 Williamson Road N.E.",
+    "city": "Roanoke",
+    "lat": 37.2849,
+    "lon": -79.9325
+  },
+  {
+    "num": "117",
+    "label": "Store #117",
+    "address": "309 Twelfth Street",
+    "city": "Lynchburg",
+    "lat": 37.4118,
+    "lon": -79.1413
+  },
+  {
+    "num": "119",
+    "label": "Store #119",
+    "address": "501 Montgomery Street",
+    "city": "Alexandria",
+    "lat": 38.8139,
+    "lon": -77.0428
+  },
+  {
+    "num": "121",
+    "label": "Store #121",
+    "address": "507 William Street",
+    "city": "Fredericksburg",
+    "lat": 38.3024,
+    "lon": -77.4632
+  },
+  {
+    "num": "122",
+    "label": "Store #122",
+    "address": "201 State Street",
+    "city": "Staunton",
+    "lat": 38.1477,
+    "lon": -79.0692
+  },
+  {
+    "num": "125",
+    "label": "Store #125",
+    "address": "304 Pantops Center",
+    "city": "Charlottesville",
+    "lat": 38.0328,
+    "lon": -78.4576
+  },
+  {
+    "num": "127",
+    "label": "Store #127",
+    "address": "13300-C Franklin Farm Road",
+    "city": "Herndon",
+    "lat": 38.9075,
+    "lon": -77.4047
+  },
+  {
+    "num": "128",
+    "label": "Store #128",
+    "address": "159 West Ocean View Avenue",
+    "city": "Norfolk",
+    "lat": 36.9543,
+    "lon": -76.253
+  },
+  {
+    "num": "130",
+    "label": "Store #130",
+    "address": "700 McKinney Boulevard",
+    "city": "Colonial Beach",
+    "lat": 38.2541,
+    "lon": -76.9771
+  },
+  {
+    "num": "131",
+    "label": "Store #131",
+    "address": "6920-E Bradlick Shopping Center",
+    "city": "Annandale",
+    "lat": 38.813,
+    "lon": -77.1841
+  },
+  {
+    "num": "133",
+    "label": "Store #133",
+    "address": "9130 Mathis Avenue",
+    "city": "Manassas",
+    "lat": 38.7573,
+    "lon": -77.4672
+  },
+  {
+    "num": "136",
+    "label": "Store #136",
+    "address": "32-F Catoctin Circle SE",
+    "city": "Leesburg",
+    "lat": 39.108,
+    "lon": -77.5649
+  },
+  {
+    "num": "138",
+    "label": "Store #138",
+    "address": "501 E. Main Street",
+    "city": "Louisa",
+    "lat": 38.0211,
+    "lon": -77.9908
+  },
+  {
+    "num": "140",
+    "label": "Store #140",
+    "address": "445 East Nelson Street",
+    "city": "Lexington",
+    "lat": 37.7798,
+    "lon": -79.4375
+  },
+  {
+    "num": "143",
+    "label": "Store #143",
+    "address": "812 East Atlantic Street",
+    "city": "South Hill",
+    "lat": 36.7193,
+    "lon": -78.1183
+  },
+  {
+    "num": "145",
+    "label": "Store #145",
+    "address": "398 North Main Street",
+    "city": "Harrisonburg",
+    "lat": 38.4531,
+    "lon": -78.8674
+  },
+  {
+    "num": "146",
+    "label": "Store #146",
+    "address": "645 West Main Street",
+    "city": "Danville",
+    "lat": 36.5706,
+    "lon": -79.419
+  },
+  {
+    "num": "149",
+    "label": "Store #149",
+    "address": "4699 Richmond Road",
+    "city": "Warsaw",
+    "lat": 37.9631,
+    "lon": -76.7766
+  },
+  {
+    "num": "155",
+    "label": "Store #155",
+    "address": "2334 York Crossing Drive",
+    "city": "Hayes",
+    "lat": 37.2759,
+    "lon": -76.4966
+  },
+  {
+    "num": "157",
+    "label": "Store #157",
+    "address": "93 Brunswick Square Court",
+    "city": "Lawrenceville",
+    "lat": 36.749,
+    "lon": -77.8646
+  },
+  {
+    "num": "158",
+    "label": "Store #158",
+    "address": "3099 Jefferson Avenue",
+    "city": "Newport News",
+    "lat": 36.9841,
+    "lon": -76.4248
+  },
+  {
+    "num": "170",
+    "label": "Store #170",
+    "address": "1238 Elden Street",
+    "city": "Herndon",
+    "lat": 38.962,
+    "lon": -77.4008
+  },
+  {
+    "num": "173",
+    "label": "Store #173",
+    "address": "130 Downey Knolls Drive",
+    "city": "Elkton",
+    "lat": 38.4062,
+    "lon": -78.6522
+  },
+  {
+    "num": "179",
+    "label": "Store #179",
+    "address": "231 Virginia Street",
+    "city": "Urbanna",
+    "lat": 37.6361,
+    "lon": -76.5773
+  },
+  {
+    "num": "181",
+    "label": "Store #181",
+    "address": "106 West Washington Street",
+    "city": "Middleburg",
+    "lat": 38.9685,
+    "lon": -77.7372
+  },
+  {
+    "num": "182",
+    "label": "Store #182",
+    "address": "1217-19 West Broad Street",
+    "city": "Richmond",
+    "lat": 37.5521,
+    "lon": -77.4531
+  },
+  {
+    "num": "183",
+    "label": "Store #183",
+    "address": "9 Village Center Drive",
+    "city": "Fredericksburg",
+    "lat": 38.37,
+    "lon": -77.5274
+  },
+  {
+    "num": "184",
+    "label": "Store #184",
+    "address": "2035 East Market Street",
+    "city": "Harrisonburg",
+    "lat": 38.4232,
+    "lon": -78.8407
+  },
+  {
+    "num": "187",
+    "label": "Store #187",
+    "address": "2421 Venable Street",
+    "city": "Richmond",
+    "lat": 37.5383,
+    "lon": -77.4131
+  },
+  {
+    "num": "192",
+    "label": "Store #192",
+    "address": "101 South Main Street",
+    "city": "Kilmarnock",
+    "lat": 37.7091,
+    "lon": -76.3798
+  },
+  {
+    "num": "198",
+    "label": "Store #198",
+    "address": "1628 Tappahannock Boulevard",
+    "city": "Tappahannock",
+    "lat": 37.9057,
+    "lon": -76.8627
+  },
+  {
+    "num": "200",
+    "label": "Store #200",
+    "address": "356 Garrisonville Road",
+    "city": "Stafford",
+    "lat": 38.4759,
+    "lon": -77.4226
+  },
+  {
+    "num": "209",
+    "label": "Store #209",
+    "address": "10724 Patriot Highway",
+    "city": "Fredericksburg",
+    "lat": 38.2564,
+    "lon": -77.4989
+  },
+  {
+    "num": "210",
+    "label": "Store #210",
+    "address": "11160-A South Lakes Drive",
+    "city": "Reston",
+    "lat": 38.9389,
+    "lon": -77.3306
+  },
+  {
+    "num": "214",
+    "label": "Store #214",
+    "address": "608 Virginia Avenue",
+    "city": "Clarksville",
+    "lat": 36.6234,
+    "lon": -78.5589
+  },
+  {
+    "num": "217",
+    "label": "Store #217",
+    "address": "619 Pilot House Drive",
+    "city": "Newport News",
+    "lat": 37.0817,
+    "lon": -76.4777
+  },
+  {
+    "num": "219",
+    "label": "Store #219",
+    "address": "8413 Old Courthouse Road",
+    "city": "Vienna",
+    "lat": 38.9154,
+    "lon": -77.2364
+  },
+  {
+    "num": "220",
+    "label": "Store #220",
+    "address": "15765 Kings Highway",
+    "city": "Montross",
+    "lat": 38.0941,
+    "lon": -76.8235
+  },
+  {
+    "num": "221",
+    "label": "Store #221",
+    "address": "16424 Consumer Row",
+    "city": "King George",
+    "lat": 38.3501,
+    "lon": -77.0551
+  },
+  {
+    "num": "222",
+    "label": "Store #222",
+    "address": "5005 Victory Boulevard",
+    "city": "Yorktown",
+    "lat": 37.1147,
+    "lon": -76.4644
+  },
+  {
+    "num": "224",
+    "label": "Store #224",
+    "address": "13944 Route 50",
+    "city": "Chantilly",
+    "lat": 38.8944,
+    "lon": -77.429
+  },
+  {
+    "num": "233",
+    "label": "Store #233",
+    "address": "6744 Fox Centre Parkway",
+    "city": "Gloucester",
+    "lat": 37.3984,
+    "lon": -76.5287
+  },
+  {
+    "num": "239",
+    "label": "Store #239",
+    "address": "320 West Broaddus Avenue",
+    "city": "Bowling Green",
+    "lat": 38.0479,
+    "lon": -77.3583
+  },
+  {
+    "num": "244",
+    "label": "Store #244",
+    "address": "4909 West Mercury Boulevard",
+    "city": "Newport News",
+    "lat": 37.0242,
+    "lon": -76.4339
+  },
+  {
+    "num": "245",
+    "label": "Store #245",
+    "address": "1249 Emancipation Highway",
+    "city": "Fredericksburg",
+    "lat": 38.3064,
+    "lon": -77.482
+  },
+  {
+    "num": "249",
+    "label": "Store #249",
+    "address": "2350 East Little Creek Road",
+    "city": "Norfolk",
+    "lat": 36.9161,
+    "lon": -76.2175
+  },
+  {
+    "num": "250",
+    "label": "Store #250",
+    "address": "2078 Nickerson Boulevard",
+    "city": "Hampton",
+    "lat": 37.0509,
+    "lon": -76.3102
+  },
+  {
+    "num": "253",
+    "label": "Store #253",
+    "address": "1200 Emmet Street",
+    "city": "Charlottesville",
+    "lat": 38.0528,
+    "lon": -78.4984
+  },
+  {
+    "num": "256",
+    "label": "Store #256",
+    "address": "1612 Laskin Road",
+    "city": "Virginia Beach",
+    "lat": 36.8525,
+    "lon": -76.0177
+  },
+  {
+    "num": "257",
+    "label": "Store #257",
+    "address": "4917 Richmond Tappahannock Highway",
+    "city": "Aylett",
+    "lat": 37.7436,
+    "lon": -77.1361
+  },
+  {
+    "num": "258",
+    "label": "Store #258",
+    "address": "3831 Kecoughtan Road",
+    "city": "Hampton",
+    "lat": 37.0109,
+    "lon": -76.354
+  },
+  {
+    "num": "264",
+    "label": "Store #264",
+    "address": "16661 River Ridge Boulevard",
+    "city": "Woodbridge",
+    "lat": 38.5883,
+    "lon": -77.3033
+  },
+  {
+    "num": "265",
+    "label": "Store #265",
+    "address": "19 Towne Center Way",
+    "city": "Hampton",
+    "lat": 37.0636,
+    "lon": -76.4256
+  },
+  {
+    "num": "269",
+    "label": "Store #269",
+    "address": "646 Brandon Avenue",
+    "city": "Roanoke",
+    "lat": 37.2555,
+    "lon": -79.9575
+  },
+  {
+    "num": "271",
+    "label": "Store #271",
+    "address": "13991 Richmond Highway",
+    "city": "Woodbridge",
+    "lat": 38.6488,
+    "lon": -77.2593
+  },
+  {
+    "num": "282",
+    "label": "Store #282",
+    "address": "1118-A West Mercury Boulevard",
+    "city": "Hampton",
+    "lat": 37.043,
+    "lon": -76.3875
+  },
+  {
+    "num": "290",
+    "label": "Store #290",
+    "address": "5226 George Washington Memorial Hwy",
+    "city": "Grafton",
+    "lat": 37.1579,
+    "lon": -76.4608
+  },
+  {
+    "num": "294",
+    "label": "Store #294",
+    "address": "3501B S Jefferson Street",
+    "city": "Falls Church",
+    "lat": 38.8463,
+    "lon": -77.1186
+  },
+  {
+    "num": "295",
+    "label": "Store #295",
+    "address": "11010 Sudley Manor Drive",
+    "city": "Manassas",
+    "lat": 38.7852,
+    "lon": -77.5201
+  },
+  {
+    "num": "296",
+    "label": "Store #296",
+    "address": "32 Windward Drive",
+    "city": "Fishersville",
+    "lat": 38.1065,
+    "lon": -78.9794
+  },
+  {
+    "num": "301",
+    "label": "Store #301",
+    "address": "4292 Merchants Plaza",
+    "city": "Woodbridge",
+    "lat": 38.6746,
+    "lon": -77.335
+  },
+  {
+    "num": "303",
+    "label": "Store #303",
+    "address": "175 West Lee Highway",
+    "city": "Warrenton",
+    "lat": 38.7303,
+    "lon": -77.7965
+  },
+  {
+    "num": "304",
+    "label": "Store #304",
+    "address": "2734 Fairground Road",
+    "city": "Goochland",
+    "lat": 37.7,
+    "lon": -77.8877
+  },
+  {
+    "num": "306",
+    "label": "Store #306",
+    "address": "2085 Lynnhaven Parkway",
+    "city": "Virginia Beach",
+    "lat": 36.7902,
+    "lon": -76.1236
+  },
+  {
+    "num": "307",
+    "label": "Store #307",
+    "address": "957 Providence Square Center",
+    "city": "Virginia Beach",
+    "lat": 36.8131,
+    "lon": -76.1691
+  },
+  {
+    "num": "316",
+    "label": "Store #316",
+    "address": "4108 Fortuna Center Plaza",
+    "city": "Dumfries",
+    "lat": 38.596,
+    "lon": -77.332
+  },
+  {
+    "num": "322",
+    "label": "Store #322",
+    "address": "14151 St. Germain Drive",
+    "city": "Centreville",
+    "lat": 38.8364,
+    "lon": -77.4376
+  },
+  {
+    "num": "326",
+    "label": "Store #326",
+    "address": "2105 Academy Road",
+    "city": "Powhatan",
+    "lat": 37.5396,
+    "lon": -77.8855
+  },
+  {
+    "num": "328",
+    "label": "Store #328",
+    "address": "809 Eden Way North",
+    "city": "Chesapeake",
+    "lat": 36.7714,
+    "lon": -76.234
+  },
+  {
+    "num": "332",
+    "label": "Store #332",
+    "address": "4018 Glenside Drive",
+    "city": "Richmond",
+    "lat": 37.6144,
+    "lon": -77.4989
+  },
+  {
+    "num": "333",
+    "label": "Store #333",
+    "address": "10972 Buckley Hall",
+    "city": "Mathews",
+    "lat": 37.4365,
+    "lon": -76.3195
+  },
+  {
+    "num": "335",
+    "label": "Store #335",
+    "address": "801-C Merrimac Trail",
+    "city": "Williamsburg",
+    "lat": 37.2685,
+    "lon": -76.6759
+  },
+  {
+    "num": "336",
+    "label": "Store #336",
+    "address": "1067 Independence Boulevard",
+    "city": "Virginia Beach",
+    "lat": 36.8722,
+    "lon": -76.1356
+  },
+  {
+    "num": "338",
+    "label": "Store #338",
+    "address": "125 Lucy Lane",
+    "city": "Waynesboro",
+    "lat": 38.0656,
+    "lon": -78.9358
+  },
+  {
+    "num": "339",
+    "label": "Store #339",
+    "address": "208 Laurel Hill Rd",
+    "city": "Verona",
+    "lat": 38.2021,
+    "lon": -79.0084
+  },
+  {
+    "num": "340",
+    "label": "Store #340",
+    "address": "309-A Oyster Point Road",
+    "city": "Newport News",
+    "lat": 37.1056,
+    "lon": -76.5108
+  },
+  {
+    "num": "341",
+    "label": "Store #341",
+    "address": "621 Stoney Creek Lane",
+    "city": "Newport News",
+    "lat": 37.1431,
+    "lon": -76.5206
+  },
+  {
+    "num": "346",
+    "label": "Store #346",
+    "address": "8105 Lee Highway",
+    "city": "Falls Church",
+    "lat": 38.8741,
+    "lon": -77.2253
+  },
+  {
+    "num": "352",
+    "label": "Store #352",
+    "address": "2555 John Milton Drive",
+    "city": "Herndon",
+    "lat": 38.9264,
+    "lon": -77.3756
+  },
+  {
+    "num": "353",
+    "label": "Store #353",
+    "address": "4255 Cheshire Plaza",
+    "city": "Dale City",
+    "lat": 38.6451,
+    "lon": -77.3335
+  },
+  {
+    "num": "357",
+    "label": "Store #357",
+    "address": "1454 North Point Village",
+    "city": "Reston",
+    "lat": 38.9789,
+    "lon": -77.3503
+  },
+  {
+    "num": "359",
+    "label": "Store #359",
+    "address": "1872 Rio Hill Center",
+    "city": "Charlottesville",
+    "lat": 38.0874,
+    "lon": -78.475
+  },
+  {
+    "num": "362",
+    "label": "Store #362",
+    "address": "100 Edds Lane",
+    "city": "Sterling",
+    "lat": 39.0403,
+    "lon": -77.4122
+  },
+  {
+    "num": "367",
+    "label": "Store #367",
+    "address": "20070 Ashbrook Commons Plaza",
+    "city": "Ashburn",
+    "lat": 39.061,
+    "lon": -77.4705
+  },
+  {
+    "num": "372",
+    "label": "Store #372",
+    "address": "3161 Duke Street",
+    "city": "Alexandria",
+    "lat": 38.8089,
+    "lon": -77.0858
+  },
+  {
+    "num": "374",
+    "label": "Store #374",
+    "address": "2955A South Glebe Road",
+    "city": "Arlington",
+    "lat": 38.8455,
+    "lon": -77.0677
+  },
+  {
+    "num": "375",
+    "label": "Store #375",
+    "address": "2231A Old Bridge Road",
+    "city": "Lake Ridge",
+    "lat": 38.6828,
+    "lon": -77.2961
+  },
+  {
+    "num": "376",
+    "label": "Store #376",
+    "address": "11012 Kentucky Springs Road",
+    "city": "Mineral",
+    "lat": 38.0825,
+    "lon": -77.8514
+  },
+  {
+    "num": "379",
+    "label": "Store #379",
+    "address": "5832 Northampton Boulevard",
+    "city": "Virginia Beach",
+    "lat": 36.8812,
+    "lon": -76.1876
+  },
+  {
+    "num": "380",
+    "label": "Store #380",
+    "address": "3815 Mount Vernon Avenue",
+    "city": "Alexandria",
+    "lat": 38.8405,
+    "lon": -77.0627
+  },
+  {
+    "num": "382",
+    "label": "Store #382",
+    "address": "475 Wythe Creek Road",
+    "city": "Poquoson",
+    "lat": 37.1253,
+    "lon": -76.3926
+  },
+  {
+    "num": "383",
+    "label": "Store #383",
+    "address": "1037 Port Republic Road",
+    "city": "Harrisonburg",
+    "lat": 38.42,
+    "lon": -78.8724
+  },
+  {
+    "num": "384",
+    "label": "Store #384",
+    "address": "5109 Westfields Boulevard",
+    "city": "Centreville",
+    "lat": 38.8672,
+    "lon": -77.4469
+  },
+  {
+    "num": "386",
+    "label": "Store #386",
+    "address": "2576 Stuarts Draft Highway",
+    "city": "Stuarts Draft",
+    "lat": 38.0348,
+    "lon": -79.0383
+  },
+  {
+    "num": "392",
+    "label": "Store #392",
+    "address": "415 Merchant Walk Square",
+    "city": "Charlottesville",
+    "lat": 38.0112,
+    "lon": -78.4987
+  },
+  {
+    "num": "394",
+    "label": "Store #394",
+    "address": "535A N. Birdneck Road",
+    "city": "Virginia Beach",
+    "lat": 36.8491,
+    "lon": -75.9947
+  },
+  {
+    "num": "405",
+    "label": "Store #405",
+    "address": "1225 W. 25th Street",
+    "city": "Norfolk",
+    "lat": 36.875,
+    "lon": -76.3036
+  },
+  {
+    "num": "406",
+    "label": "Store #406",
+    "address": "1630 Publix Way",
+    "city": "Stafford",
+    "lat": 38.4263,
+    "lon": -77.4339
+  },
+  {
+    "num": "412",
+    "label": "Store #412",
+    "address": "50 North Stafford Complex Center",
+    "city": "Stafford",
+    "lat": 38.4762,
+    "lon": -77.4718
+  },
+  {
+    "num": "417",
+    "label": "Store #417",
+    "address": "201 Tradesman Way",
+    "city": "Yorktown",
+    "lat": 37.1917,
+    "lon": -76.4882
+  },
+  {
+    "num": "420",
+    "label": "Store #420",
+    "address": "980 J. Clyde Morris Boulevard",
+    "city": "Newport News",
+    "lat": 37.096,
+    "lon": -76.4579
+  },
+  {
+    "num": "422",
+    "label": "Store #422",
+    "address": "14272 Warwick Boulevard",
+    "city": "Newport News",
+    "lat": 37.1272,
+    "lon": -76.534
+  },
+  {
+    "num": "423",
+    "label": "Store #423",
+    "address": "1595 International Blvd., Suite 101",
+    "city": "Norfolk",
+    "lat": 36.8965,
+    "lon": -76.2254
+  },
+  {
+    "num": "424",
+    "label": "Store #424",
+    "address": "44722 Brimfield Drive",
+    "city": "Ashburn",
+    "lat": 39.0509,
+    "lon": -77.453
+  },
+  {
+    "num": "428",
+    "label": "Store #428",
+    "address": "4807-A Shore Drive",
+    "city": "Virginia Beach",
+    "lat": 36.9038,
+    "lon": -76.1376
+  },
+  {
+    "num": "429",
+    "label": "Store #429",
+    "address": "150 Central Park Avenue",
+    "city": "Virginia Beach",
+    "lat": 36.8413,
+    "lon": -76.1338
+  },
+  {
+    "num": "437",
+    "label": "Store #437",
+    "address": "1400 Kempsville Road",
+    "city": "Chesapeake",
+    "lat": 36.7634,
+    "lon": -76.2019
+  },
+  {
+    "num": "439",
+    "label": "Store #439",
+    "address": "14220 Smoketown Road",
+    "city": "Woodbridge",
+    "lat": 38.6404,
+    "lon": -77.3012
+  },
+  {
+    "num": "440",
+    "label": "Store #440",
+    "address": "219 Arch Avenue",
+    "city": "Waynesboro",
+    "lat": 38.067,
+    "lon": -78.8875
+  },
+  {
+    "num": "443",
+    "label": "Store #443",
+    "address": "6464 Trading Square",
+    "city": "Haymarket",
+    "lat": 38.8174,
+    "lon": -77.6431
+  },
+  {
+    "num": "444",
+    "label": "Store #444",
+    "address": "315B Virginia Beach Boulevard",
+    "city": "Virginia Beach",
+    "lat": 36.8449,
+    "lon": -75.9765
+  },
+  {
+    "num": "523",
+    "label": "Store #523",
+    "address": "9843 Georgetown Pike",
+    "city": "Great Falls",
+    "lat": 38.9976,
+    "lon": -77.287
+  }
+]
