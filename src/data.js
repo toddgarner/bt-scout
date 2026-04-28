@@ -25,13 +25,7 @@ export const STORES = [
 // Codes come from the VA ABC product catalog (the 6-digit NC code).
 export const PRODUCTS = [
   { code: '018006', name: 'Buffalo Trace 750ml', defaultOn: true },
-  { code: '016850', name: 'Blanton\'s Single Barrel 750ml', defaultOn: true },
   { code: '017766', name: 'Eagle Rare 10yr 750ml', defaultOn: false },
   { code: '016483', name: 'Old Fitzgerald BiB', defaultOn: false },
-  { code: '021602', name: 'E.H. Taylor Small Batch', defaultOn: false },
-  { code: '027101', name: 'E.H. Taylor Straight Rye', defaultOn: false },
-  { code: '025091', name: 'E.H. Taylor Barrel Proof', defaultOn: false },
-  { code: '021106', name: 'Pure Kentucky XO', defaultOn: false },
-  { code: '020384', name: 'Old Forester 1924 Craft Bourbon 750ml', defaultOn: false },
   { code: '018656', name: 'Henry McKenna Single Barrel Bourbon', defaultOn: false },
 ]
