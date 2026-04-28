@@ -105,9 +105,10 @@ function metaFromInfo(info) {
   if (!num) return null
   const lat = Number(pick(info, 'latitude', 'lat'))
   const lon = Number(pick(info, 'longitude', 'lng', 'lon'))
+  const city = pick(info, 'city', 'storeCity') || ''
   return {
     num,
-    label: pick(info, 'storeName', 'name', 'displayName') || `Store #${num}`,
+    label: pick(info, 'storeName', 'name', 'displayName') || city || `Store #${num}`,
     address: pick(info, 'address1', 'streetAddress', 'address') || '',
     lat: Number.isFinite(lat) ? lat : null,
     lon: Number.isFinite(lon) ? lon : null,
