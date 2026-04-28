@@ -83,13 +83,40 @@ async function fetchWithRetry(url) {
   }
 }
 
+// Pull a value from the first matching key in a record.
+const pick = (obj, ...keys) => {
+  for (const k of keys) {
+    const v = obj?.[k]
+    if (v != null && v !== '') return v
+  }
+  return undefined
+}
+
+// Extract { num, label, address, lat, lon } from a store record returned
+// by storeNearby. Coordinates may be missing on some records — callers
+// should treat them as optional.
+function metaFromInfo(info) {
+  const num = String(info?.storeId ?? '').replace(/^0+/, '') || null
+  if (!num) return null
+  const lat = Number(pick(info, 'latitude', 'lat'))
+  const lon = Number(pick(info, 'longitude', 'lng', 'lon'))
+  return {
+    num,
+    label: pick(info, 'storeName', 'name', 'displayName') || `Store #${num}`,
+    address: pick(info, 'address1', 'streetAddress', 'address') || '',
+    lat: Number.isFinite(lat) ? lat : null,
+    lon: Number.isFinite(lon) ? lon : null,
+  }
+}
+
 // Fan out across anchor stores. The storeNearby endpoint returns at most
 // 6 stores per call, so we iterate our tracked stores as anchors and stop
 // once every tracked store has been covered by some response.
 async function fetchInventory(storeNums, productCodes) {
-  if (!storeNums.length || !productCodes.length) return []
+  if (!storeNums.length || !productCodes.length) return { rows: [], discovered: {} }
   const seen = new Set()   // `${store}|${code}` — dedupe across overlapping responses
   const rows = []
+  const discovered = {}    // storeNum -> { num, label, address, lat, lon }
   for (const code of productCodes) {
     const needed = new Set(storeNums.map(normStoreNum))
     for (const store of storeNums) {
@@ -114,6 +141,10 @@ async function fetchInventory(storeNums, productCodes) {
           const rowStore = normStoreNum(info.storeId)
           if (!rowStore) continue
           needed.delete(rowStore)
+          if (!discovered[rowStore]) {
+            const meta = metaFromInfo(info)
+            if (meta) discovered[rowStore] = meta
+          }
           const key = `${rowStore}|${prodCode}`
           if (seen.has(key)) continue
           seen.add(key)
@@ -126,7 +157,7 @@ async function fetchInventory(storeNums, productCodes) {
       }
     }
   }
-  return rows
+  return { rows, discovered }
 }
 
 function indexInventory(payload) {
@@ -296,6 +327,7 @@ export default function App() {
 
   // --- Runtime state ------------------------------------------------------
   const [inventory, setInventory] = useState({})
+  const [discoveredStores, setDiscoveredStores] = useState({})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [lastChecked, setLastChecked] = useState(null)
@@ -324,6 +356,20 @@ export default function App() {
     })
   }
 
+  // When the user has shared their location, anchor the lookup on the
+  // single closest curated store. The storeNearby response radiates
+  // outward from there with up to 5 stores' worth of inventory.
+  // Without a location, fall back to fanning out across the whole
+  // curated short-list (existing behavior).
+  const anchorNums = useMemo(() => {
+    if (!userLoc) return STORES.map(s => s.num)
+    const closest = [...STORES].sort((a, b) =>
+      distanceMiles(userLoc.lat, userLoc.lon, a.lat, a.lon) -
+      distanceMiles(userLoc.lat, userLoc.lon, b.lat, b.lon)
+    )[0]
+    return closest ? [closest.num] : STORES.map(s => s.num)
+  }, [userLoc])
+
   // --- The core fetch -----------------------------------------------------
   const refresh = useCallback(async () => {
     if (activeCodes.size === 0) return
@@ -332,11 +378,14 @@ export default function App() {
     setLoading(true)
     setError(null)
     try {
-      const data = await fetchInventory(
-        STORES.map(s => s.num),
+      const { rows, discovered } = await fetchInventory(
+        anchorNums,
         [...activeCodes],
       )
-      const next = indexInventory(data)
+      const next = indexInventory(rows)
+      if (Object.keys(discovered).length) {
+        setDiscoveredStores(prev => ({ ...prev, ...discovered }))
+      }
 
       // Detect transitions and notify
       const previous = prevInventoryRef.current
@@ -374,7 +423,7 @@ export default function App() {
       setLoading(false)
       inFlightRef.current = false
     }
-  }, [activeCodes, notifStatus, sendNotif, activeProductsRef, notifyEnabledRef])
+  }, [activeCodes, anchorNums, notifStatus, sendNotif, activeProductsRef, notifyEnabledRef])
 
   // --- Initial fetch ------------------------------------------------------
   // Runs once on mount and any time the set of tracked products changes.
@@ -457,10 +506,29 @@ export default function App() {
     }
   }
 
+  // The set of stores the UI cares about right now. Without a user
+  // location it's the curated short-list. With a location it's the 5
+  // stores closest to the user — first from the API-discovered set
+  // (populated after the first refresh), with a sensible fallback to
+  // the curated list while that fetch is in flight.
+  const displayStores = useMemo(() => {
+    if (!userLoc) return STORES
+    const NEAREST_N = 5
+    const fromDiscovered = Object.values(discoveredStores).filter(
+      s => s.lat != null && s.lon != null
+    )
+    const pool = fromDiscovered.length > 0 ? fromDiscovered : STORES
+    return [...pool]
+      .map(s => ({ s, d: distanceMiles(userLoc.lat, userLoc.lon, s.lat, s.lon) }))
+      .sort((a, b) => a.d - b.d)
+      .slice(0, NEAREST_N)
+      .map(x => x.s)
+  }, [userLoc, discoveredStores])
+
   // --- Derived stats ------------------------------------------------------
   const totalBottles = useMemo(() => {
     let sum = 0
-    for (const s of STORES) {
+    for (const s of displayStores) {
       const inv = inventory[s.num.replace(/^0+/, '')] || {}
       for (const p of activeProducts) {
         const n = Number(inv[p.code])
@@ -468,21 +536,21 @@ export default function App() {
       }
     }
     return sum
-  }, [inventory, activeProducts])
+  }, [displayStores, inventory, activeProducts])
 
   const storesWithStock = useMemo(() => {
-    return STORES.filter(s => {
+    return displayStores.filter(s => {
       const inv = inventory[s.num.replace(/^0+/, '')] || {}
       return activeProducts.some(p => Number(inv[p.code]) > 0)
     }).length
-  }, [inventory, activeProducts])
+  }, [displayStores, inventory, activeProducts])
 
   // Decorate stores with their bottle total and (if we have a user
   // location) distance. Default sort: most bottles first. With a user
   // location: in-stock stores first, ordered by distance ascending —
   // out-of-stock stores fall to the bottom, also by distance.
   const sortedStores = useMemo(() => {
-    const decorated = STORES.map(s => {
+    const decorated = displayStores.map(s => {
       const inv = inventory[s.num.replace(/^0+/, '')] || {}
       let total = 0
       for (const p of activeProducts) {
@@ -505,7 +573,7 @@ export default function App() {
       decorated.sort((a, b) => b.total - a.total)
     }
     return decorated
-  }, [inventory, activeProducts, userLoc])
+  }, [displayStores, inventory, activeProducts, userLoc])
 
   // Countdown to next auto-refresh
   const nextCheckLabel = useMemo(() => {
@@ -676,7 +744,7 @@ export default function App() {
                 <Popup>You are here</Popup>
               </CircleMarker>
             )}
-            {STORES.map(s => {
+            {displayStores.map(s => {
               const inv = inventory[s.num.replace(/^0+/, '')] || {}
               const best = activeProducts.reduce((max, p) => {
                 const n = Number(inv[p.code])
